@@ -24,8 +24,8 @@ def xyz(elev):
 ##Create FeatureGroup to add elements in Feature group instead of map to maintain modularity.
 fg = folium.FeatureGroup(name="My Map")
 for lt,ln,nm,el in zip(lat,lon,name,elv):
-    fg.add_child(folium.Marker(location=[lt,ln], popup=nm, icon = folium.Icon(color = xyz(el))))
+    fg.add_child(folium.CircleMarker(location=[lt,ln], popup=nm, fill_color = xyz(el), color = "grey", radius= 10))
 map.add_child(fg)    
 
 #Saving the map as Volcano.html
-map.save("Volcano.html")
+map.save("Volcano_Circle.html")
