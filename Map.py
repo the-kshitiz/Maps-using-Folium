@@ -1,13 +1,31 @@
+##Importing library
 import folium
 import pandas as pd
+
+##Decalring dataframe and variables
 location = pd.read_csv("Volcanoes_USA.txt")
 lat = list(location.LAT)
 lon = list(location.LON)
 name = list(location.NAME)
-map = folium.Map(location = [38.58, -99.09])
-fg = folium.FeatureGroup(name="My Map")
-for lt,ln,nm in zip(lat,lon,name):
-    fg.add_child(folium.Marker(location=[lt,ln], popup=nm, icon = folium.Icon(color = "green")))
+elv = list(location.ELEV)
 
+##Creating Map Object
+map = folium.Map(location = [38.58, -99.09])
+
+##function to decide the color of the marker depending on the elevation
+def xyz(elev):
+    if(elev<1000):
+        return "green"
+    elif(elev<2000):
+        return "blue"
+    else:
+        return "red"
+
+##Create FeatureGroup to add elements in Feature group instead of map to maintain modularity.
+fg = folium.FeatureGroup(name="My Map")
+for lt,ln,nm,el in zip(lat,lon,name,elv):
+    fg.add_child(folium.Circle(location=[lt,ln], popup=nm, icon = folium.Icon(color = xyz(el))))
 map.add_child(fg)    
-map.save("India.html")
+
+#Saving the map as Volcano.html
+map.save("Volcano.html")
