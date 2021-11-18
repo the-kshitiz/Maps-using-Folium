@@ -24,7 +24,9 @@ def xyz(elev):
 ##Create FeatureGroup to add elements in Feature group instead of map to maintain modularity.
 fg = folium.FeatureGroup(name="My Map")
 for lt,ln,nm,el in zip(lat,lon,name,elv):
-    fg.add_child(folium.CircleMarker(location=[lt,ln], popup=nm, fill_color = xyz(el), color = "grey", radius= 10))
+    fg.add_child(folium.CircleMarker(location=[lt,ln], popup=nm, fill_color = xyz(el), color = "grey", radius= 10, fill_opacity = 0.7))
+
+fg.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(), style_function=lambda x: {'fillColor':'red' if x['properties']['POP2005']> 100000000 else 'yellow'}))
 map.add_child(fg)    
 
 #Saving the map as Volcano.html
